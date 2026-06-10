@@ -278,6 +278,7 @@ func (w *World) loadChunkLocked(pos world.ChunkPos) (*Chunk, bool, error) {
 		}
 		ret := &Chunk{
 			Chunk:         ch.Chunk,
+			BlockRegistry: w.BlockRegistry,
 			BlockEntities: blockEntities,
 		}
 		w.memState.chunks[pos] = ret

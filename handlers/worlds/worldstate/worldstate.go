@@ -24,6 +24,9 @@ type memoryState struct {
 
 type Chunk struct {
 	*chunk.Chunk
+	// BlockRegistry resolves runtime IDs for this chunk. Since dragonfly 1.26.20
+	// the embedded chunk no longer exposes its registry, so we keep it here.
+	BlockRegistry world.BlockRegistry
 	BlockEntities map[cube.Pos]map[string]any
 }
 

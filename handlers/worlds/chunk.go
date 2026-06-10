@@ -51,6 +51,7 @@ func (w *worldsHandler) handleLevelChunk(pk *packet.LevelChunk, timeReceived tim
 
 	ch := &worldstate.Chunk{
 		Chunk:         levelChunk,
+		BlockRegistry: w.serverState.blocks,
 		BlockEntities: make(map[cube.Pos]map[string]any),
 	}
 

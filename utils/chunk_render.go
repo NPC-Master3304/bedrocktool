@@ -28,7 +28,7 @@ func (cr *ChunkRenderer) blockColorAt(c *chunk.Chunk, x uint8, y int16, z uint8)
 	}
 	rid := c.Block(x, y, z, 0)
 
-	br := c.BlockRegistry.(world.BlockRegistry)
+	br := cr.BlockRegistry
 	b, found := br.BlockByRuntimeID(rid)
 	if !found {
 		return notFoundColor
@@ -83,7 +83,7 @@ haveColor:
 }
 
 func (cr *ChunkRenderer) chunkGetColorAt(c *chunk.Chunk, x uint8, y int16, z uint8) color.RGBA {
-	br := c.BlockRegistry.(world.BlockRegistry)
+	br := cr.BlockRegistry
 	haveUp := false
 	cube.Pos{int(x), int(y), int(z)}.
 		Side(cube.FaceUp).
@@ -118,6 +118,11 @@ func (cr *ChunkRenderer) chunkGetColorAt(c *chunk.Chunk, x uint8, y int16, z uin
 }
 
 type ChunkRenderer struct {
+	// BlockRegistry resolves runtime IDs to blocks. It must correspond to the
+	// registry the rendered chunks were decoded with and must be set before
+	// rendering. Since dragonfly 1.26.20 the chunk no longer carries the
+	// registry, so the caller supplies it here.
+	BlockRegistry     world.BlockRegistry
 	customBlockColors map[string]color.RGBA
 }
 

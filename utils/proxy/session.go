@@ -622,8 +622,11 @@ func (s *Session) proxyLoop(ctx context.Context, toServer bool) (err error) {
 				_pk.StorageItem.Stack.NetworkID = 0
 			}
 		case *packet.InventorySlot:
-			if _pk.StorageItem.Stack.NetworkID == -1 {
-				_pk.StorageItem.Stack.NetworkID = 0
+			// StorageItem became an Optional[ItemInstance] in 1.26.20, so read
+			// it out, normalise the NetworkID and write it back.
+			if item, ok := _pk.StorageItem.Value(); ok && item.Stack.NetworkID == -1 {
+				item.Stack.NetworkID = 0
+				_pk.StorageItem = protocol.Option(item)
 			}
 		}
 

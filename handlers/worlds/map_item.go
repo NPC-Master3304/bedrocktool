@@ -196,6 +196,7 @@ func (m *MapUI) Start(ctx context.Context) {
 
 	m.ticker = time.NewTicker(33 * time.Millisecond)
 	go func() {
+		m.ChunkRenderer.BlockRegistry = m.w.serverState.blocks
 		m.ChunkRenderer.ResolveColors(
 			m.w.serverState.customBlocks,
 			m.w.session.Server.ResourcePacks(),
